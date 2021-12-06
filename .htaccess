@@ -1,0 +1,26 @@
+#Опция -ExecCGI запрещает запуск CGI скриптов.
+#Опция -Indexes запрещает показывать содержимое каталогов, если в них нет индексного файла.
+#Опция -Includes запрещает SSI.
+#Опция -FollowSymLinks не позволяет использовать символические ссылки на файлы или каталоги, не находящиеся в пределах корня вашего сайта.
+Options -ExecCGI -Indexes -Includes -FollowSymLinks +SymLinksIfOwnerMatch
+
+# Опция говорит серверу отдавать index.php на входящий запрос в каталогу
+#     если каталог существует и существует index.php
+#     или показывает содержимое каталога при +Indexes
+DirectoryIndex index.php
+
+# IfModule - проверка включения в конфигурационном файле Apache модуля
+<IfModule mod_rewrite.c>
+    # Включение работы модуля
+    RewriteEngine On
+
+    <IfModule mod_negotiation.c>
+        Options -MultiViews
+    </IfModule>    
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_URI} !^/assets/
+#    RewriteCond %{REQUEST_URI} !^/admin/
+    RewriteCond %{REQUEST_URI} !^/img/
+    RewriteRule .* index.php
+</IfModule>
