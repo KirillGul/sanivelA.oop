@@ -4,8 +4,6 @@
 #Опция -FollowSymLinks не позволяет использовать символические ссылки на файлы или каталоги, не находящиеся в пределах корня вашего сайта.
 #Опция +SymLinksIfOwnerMatch закрывает уязвимость +FollowSymLinks. Описание: https://habr.com/ru/sandbox/90459/
 Options -ExecCGI -Indexes -Includes -FollowSymLinks +SymLinksIfOwnerMatch
-#AllowOverride AuthConfig FileInfo Indexes Limit Options=Indexes,Includes,IncludesNOEXEC,SymLinksIfOwnerMatch,MultiViews,None
-#AllowOverride none
 
 # Опция говорит серверу отдавать index.php на входящий запрос в каталогу
 #     если каталог существует и существует index.php
@@ -16,10 +14,6 @@ DirectoryIndex index.php
 <IfModule mod_rewrite.c>
     # Включение работы модуля
     RewriteEngine On
-
-    <IfModule mod_negotiation.c>
-        Options -MultiViews
-    </IfModule>    
 
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_URI} !^/assets/
